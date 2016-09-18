@@ -31,7 +31,7 @@ class Graph(object):
     def compile(self):
         """Compile graph and all sub-graph objects"""
 
-        for v in self.graph.values():
+        for v in list(self.graph.values()):
             if isinstance(v, Graph):
                 v.compile()
         self._compiled = compile_graph(self.graph)
@@ -85,7 +85,7 @@ class Graph(object):
             return fn
 
         if callable(func_or_name):
-            self.graph[func_or_name.func_name] = func_or_name
+            self.graph[func_or_name.__name__] = func_or_name
             return func_or_name
         else:
             return _decorator

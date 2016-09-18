@@ -31,7 +31,7 @@ def to_graphviz(graph, transitive=False, path=None):
         deps = graph["direct_dependencies"]
 
     nodes, edges, subgraphs = [], [], {}
-    for k, v in graph["schema"].iteritems():
+    for k, v in graph["schema"].items():
         if hasattr(v["fn"], "_schema"):
             subgraphs[k] = to_graphviz(v["fn"]._schema, transitive, path + [k])
         else:
@@ -51,7 +51,7 @@ def format_edge(graph, node, path):
 
     args = list(graph["schema"][node]["required"])
     kwargs = ["{}={}".format(k, v) for k, v in
-              graph["schema"][node]["optional"].iteritems()]
+              graph["schema"][node]["optional"].items()]
     node_name = ".".join(path + [node])
 
     return "{}[{}]".format(node_name, ", ".join(args + kwargs), )
@@ -64,7 +64,7 @@ def draw_graph(dot, graph, dep_data, include_args=True):
     for a, b in dep_data["edges"]:
         dot.add_edge(Edge(a, b))
 
-    for k, v in dep_data["subgraphs"].iteritems():
+    for k, v in dep_data["subgraphs"].items():
         draw_graph(dot, graph["schema"][k], v, include_args)
 
     return dot

@@ -32,7 +32,7 @@ def build_nodes(graph):
     """Gather function metadata for graph nodes"""
 
     acc = {}
-    for k, v in graph.iteritems():
+    for k, v in graph.items():
         if callable(v):
             acc[k] = util.fninfo(v)
         else:
@@ -61,7 +61,7 @@ def deps_for(nodes, key):
 def build_dependency_tree(nodes):
     """Find all dependencies for all keys in a given graph"""
 
-    return { k: deps_for(nodes, k) for k in nodes.keys() }
+    return { k: deps_for(nodes, k) for k in list(nodes.keys()) }
 
 def graph_parameters(nodes):
     """Gather all required and optional inputs and outputs."""
@@ -69,7 +69,7 @@ def graph_parameters(nodes):
     out = set(nodes)
     rin, oin = set(), set()
 
-    for node in nodes.values():
+    for node in list(nodes.values()):
         rin |= node["required"]
         oin |= set(node["optional"])
 
@@ -78,7 +78,7 @@ def graph_parameters(nodes):
 def graph_nodes(dependencies):
     """Find all nodes referenced by this graph"""
 
-    return set.union(set(dependencies), *dependencies.values())
+    return set.union(set(dependencies), *list(dependencies.values()))
 
 def compile_graph(descriptor):
     """Compile a graph descriptor into a graph"""

@@ -20,6 +20,7 @@
 import copy
 import inspect
 from functools import partial
+from functools import reduce
 
 __author__ = "Michael-Keith"
 
@@ -42,7 +43,7 @@ def fninfo(fn):
     defaults = defaults or []
 
     required = args[:-len(defaults)] if defaults else args
-    optional = dict(zip(args[-len(defaults):], defaults))
+    optional = dict(list(zip(args[-len(defaults):], defaults)))
 
     return {
         "fn": fn,
@@ -117,14 +118,14 @@ def group_by(fn, l):
 def select_keys(fn, d):
     """Returns a new dict with keys where the predicate function is truthy"""
 
-    return { k: v for k, v in d.iteritems() if fn(k, v) }
+    return { k: v for k, v in d.items() if fn(k, v) }
 
 def mapkv(fn, d):
     """Apply `fn` to each k/v pair of `d`
     `fn` should return a new (k, v) pair
     """
 
-    return dict(fn(k, v) for k, v in d.iteritems())
+    return dict(fn(k, v) for k, v in d.items())
 
 def map_keys(fn, d):
     """Applies `fn` to all keys of `d`
@@ -168,7 +169,7 @@ def merge_with(fn, *dicts):
     """Merge 2 or more dicts, using `fn` for conflicting values"""
 
     def _merge(d1, d2):
-        for k, v in d2.iteritems():
+        for k, v in d2.items():
             if k in d1:
                 d1[k] = fn(d1[k], v)
             else:
@@ -204,7 +205,7 @@ def walk(inner, outer, coll):
     if isinstance(coll, list):
         return outer([inner(e) for e in coll])
     elif isinstance(coll, dict):
-        return outer(dict([inner(e) for e in coll.iteritems()]))
+        return outer(dict([inner(e) for e in coll.items()]))
     elif isinstance(coll, tuple):
         return outer([inner(e) for e in coll])
     else:

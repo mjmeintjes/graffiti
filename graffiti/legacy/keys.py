@@ -32,7 +32,7 @@ def expand_key(key, value, separator="__"):
 def expand_keys(d, separator="__"):
     """Uses expand_key to expand all keys in `d`"""
 
-    expanded = [expand_key(k, v, separator) for k, v in d.iteritems()]
+    expanded = [expand_key(k, v, separator) for k, v in d.items()]
     acc = {}
     for exp in expanded:
         acc = util.deep_merge_with(lambda _, v: v, acc, exp)
@@ -59,7 +59,7 @@ def simplify(d, separator="__"):
 
     def _simplifier(d, prefix):
         acc = {}
-        for k, v in d.iteritems():
+        for k, v in d.items():
             name = separator.join(prefix + [k])
             if isinstance(v, dict):
                 acc = util.merge(acc, _simplifier(v, prefix + [k]))

@@ -20,6 +20,7 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 from graffiti import util
+from functools import reduce
 
 __author__ = "Michael-Keith Bernard"
 
@@ -30,7 +31,7 @@ def schema(v):
 
 def dependencies(g):
     deps = {}
-    for k, v in g.iteritems():
+    for k, v in g.items():
         deps[k] = set(v["required"])
     return deps
 
@@ -45,7 +46,7 @@ def transitive(deps):
 def topological(deps):
     if not deps:
         return []
-    sources = list(set(deps) - set(util.concat1(deps.values())))
+    sources = list(set(deps) - set(util.concat1(list(deps.values()))))
     if not sources:
         raise ValueError("Graph cycle detected!")
     return (sources +
@@ -80,9 +81,9 @@ def compile_graph(g):
         topo = topological(deps)[::-1]
 
         topo_trans = { k: [e for e in topo if e in v]
-                       for k, v in transitive(deps).iteritems() }
-        required = set(util.concat1(deps.values())) - set(deps)
-        optional = util.merge(*[v["optional"] for v in schematized.values()])
+                       for k, v in transitive(deps).items() }
+        required = set(util.concat1(list(deps.values()))) - set(deps)
+        optional = util.merge(*[v["optional"] for v in list(schematized.values())])
         nodes = set(deps)
 
         def _graphfn(_env=None, _keys=None, _prune_keys=False, **kwargs):

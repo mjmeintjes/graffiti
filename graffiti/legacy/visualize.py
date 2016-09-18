@@ -24,9 +24,9 @@ __author__ = "Michael-Keith Bernard"
 def to_graphviz(graph, transitive=False):
     nodes = graph["node_names"]
     if transitive:
-        edges = set((k, v) for k, vs in graph["dependencies"].iteritems() for v in vs)
+        edges = set((k, v) for k, vs in graph["dependencies"].items() for v in vs)
     else:
-        edges = set((k, v) for k, vs in graph["nodes"].iteritems() for v in vs["required"])
+        edges = set((k, v) for k, vs in graph["nodes"].items() for v in vs["required"])
 
     return {
         "nodes": nodes,
@@ -39,7 +39,7 @@ def format_edge(graph, node):
 
     args = list(graph["nodes"][node]["required"])
     kwargs = ["{}={}".format(k, v) for k, v in
-              graph["nodes"][node]["optional"].iteritems()]
+              graph["nodes"][node]["optional"].items()]
     return "{}[{}]".format(node, ", ".join(args + kwargs), )
 
 def visualize(graph, filename="graph.png", include_args=True, transitive=False):

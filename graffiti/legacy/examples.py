@@ -42,7 +42,7 @@ stats_graph = {
 graph = Graph(stats_graph)
 pprint(graph)
 
-print "Only key:", graph({ "xs": range(10) }, "ends__first3")
-print "Optional arg:", graph({ "xs": range(10), "p": .2 }, "other__foo")
-print "Nullary:", graph({ "xs": range(10), "p": .2 }, "other__bar")
+print("Only key:", graph({ "xs": list(range(10)) }, "ends__first3"))
+print("Optional arg:", graph({ "xs": list(range(10)), "p": .2 }, "other__foo"))
+print("Nullary:", graph({ "xs": list(range(10)), "p": .2 }, "other__bar"))
 graph.visualize()

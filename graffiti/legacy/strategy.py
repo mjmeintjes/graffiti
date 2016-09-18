@@ -23,6 +23,7 @@
 from operator import or_
 
 from graffiti import util
+from functools import reduce
 
 def satisfied_by(nodes, inputs):
     """Find all nodes that are satisfied by the inputs but not already in the
