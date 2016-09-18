@@ -18,17 +18,17 @@ descriptor = {
     "dup_a2": lambda sub__a2: sub__a2
 }
 graph = compile_graph(descriptor)
-xs = range(10)
+xs = list(range(10))
 inputs = { "xs": xs }
 
 def has_keys(d, *keys):
     return all(key in d for key in keys)
 
 def is_subdict(d1, d2):
-    return all(d1[k] == v for k, v in d2.iteritems())
+    return all(d1[k] == v for k, v in d2.items())
 
 def has_props(g, props):
-    return all(getattr(g, prop) == val for prop, val in props.iteritems())
+    return all(getattr(g, prop) == val for prop, val in props.items())
 
 def test_once_all():
     res = run_once(graph, inputs)
@@ -93,7 +93,7 @@ def test_run_lazy_transitive():
     assert not has_keys(res, "c")
 
 def test_run_includes_inputs():
-    res = run_graph(graph, { "xs": range(10), "m": 10 })
+    res = run_graph(graph, { "xs": list(range(10)), "m": 10 })
     assert has_keys(res, "xs", "m")
 
 def test_wrapper_graph_properties():

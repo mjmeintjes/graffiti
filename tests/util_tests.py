@@ -79,7 +79,7 @@ def test_concat1():
 
 def test_iterate():
     it = util.iterate(lambda n: n + 1, 0)
-    assert list(islice(it, 10)) == range(10)
+    assert list(islice(it, 10)) == list(range(10))
 
 def test_fixpoint_converging():
     fn = lambda n: n / 2

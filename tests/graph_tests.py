@@ -15,7 +15,7 @@ descriptor = {
 }
 
 graph = compile_graph(descriptor)
-xs = range(10)
+xs = list(range(10))
 inputs = { "xs": xs }
 
 uber_descriptor = {
@@ -44,10 +44,10 @@ def has_keys(d, *keys):
     return all(key in d for key in keys)
 
 def is_subdict(d1, d2):
-    return all(d1[k] == v for k, v in d2.iteritems())
+    return all(d1[k] == v for k, v in d2.items())
 
 def has_props(g, props):
-    return all(getattr(g, prop) == val for prop, val in props.iteritems())
+    return all(getattr(g, prop) == val for prop, val in props.items())
 
 def test_run_single_key():
     res = graph(_env=inputs, _keys={ "len" })
